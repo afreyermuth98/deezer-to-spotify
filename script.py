@@ -9,15 +9,26 @@ import sys
 
 def get_titles_and_artists(playlist_id):
     titles_and_artists = []
-    r = requests.get("https://api.deezer.com/playlist/" + playlist_id)
+    r = requests.get("https://api.deezer.com/playlist/" + playlist_id + "/tracks")
     if (r.status_code != 200):
         exit(r.response)
-    tracks = r.json()['tracks']['data']
+
+    tracks = r.json()['data']
     for track in tracks:
         titles_and_artists.append({
             'title': track['title'],
             'artist': track['artist']['name']
         })
+    while "next" in r.json():
+        r = requests.get(r.json()["next"])
+        if (r.status_code != 200):
+            exit(r.response)
+        tracks = r.json()['data']
+        for track in tracks:
+            titles_and_artists.append({
+                'title': track['title'],
+                'artist': track['artist']['name']
+            })
 
     return titles_and_artists
 
