@@ -96,7 +96,7 @@ def upload_to_spotify_playlist(playlist_id, titles_and_artists, headers):
         else:
             print("Successfully uploaded ", title, " from ", artist)
 
-    if len(unfound_tracks > 0):
+    if len(unfound_tracks) > 0:
         print("Some tracks could not have been upload : ")
         for uf in unfound_tracks:
             print(uf)
